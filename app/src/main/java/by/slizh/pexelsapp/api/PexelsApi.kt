@@ -32,7 +32,7 @@ interface PexelsApi {
     suspend fun getPhotoById(
         @Path("id") id: Int,
         @Header("Authorization") authorization: String = API_KEY
-    ): Photo
+    ): Response<Photo>
 
     @GET("collections/featured")
     suspend fun getFeaturedCollections(

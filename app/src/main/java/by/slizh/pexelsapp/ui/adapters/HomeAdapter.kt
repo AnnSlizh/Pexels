@@ -16,6 +16,8 @@ import javax.inject.Inject
 
 class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
+
+    private var showDetailPhoto: ((Photo) -> Unit)? = null
     inner class HomeViewHolder(val binding: HomeListRowBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -46,6 +48,10 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
         holder.binding.apply {
             imageRow.loadImageFromGlide(photo.src?.original)
         }
+
+        holder.itemView.setOnClickListener{
+            showDetailPhoto?.invoke(photo)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -57,12 +63,15 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
             Glide.with(this)
                 .load(url)
                 .error(R.drawable.download_button)
-                .optionalCenterCrop()
+                .fitCenter()
                 .placeholder(R.drawable.placeholder)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(this)
         }
+    }
 
+    fun showDetailPhoto(callback: (Photo) -> Unit) {
+        this.showDetailPhoto = callback
     }
 
 

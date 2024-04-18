@@ -1,5 +1,9 @@
 package by.slizh.pexelsapp.data.response
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Src(
     val original: String,
     val large: String,
@@ -9,4 +13,4 @@ data class Src(
     val portrait: String,
     val landscape:String,
     val tiny: String
-)
+): Parcelable

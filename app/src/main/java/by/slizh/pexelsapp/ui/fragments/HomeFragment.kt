@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import by.slizh.pexelsapp.MainActivity
 import by.slizh.pexelsapp.R
 import by.slizh.pexelsapp.databinding.FragmentHomeBinding
 import by.slizh.pexelsapp.ui.adapters.HomeAdapter
 import by.slizh.pexelsapp.util.Resource
-import by.slizh.pexelsapp.viewModel.PhotoListViewModel
+import by.slizh.pexelsapp.viewModel.PhotoViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val photoListViewModel: PhotoListViewModel by viewModels()
+    private val photoViewModel: PhotoViewModel by viewModels()
 
     @Inject
     lateinit var homeAdapter: HomeAdapter
@@ -48,7 +49,7 @@ class HomeFragment : Fragment() {
             layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL )
         }
 
-        photoListViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
+        photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
             when (photoList) {
                 is Resource.Success -> {
                     binding.homeProgressBar.visibility = View.GONE
@@ -65,7 +66,23 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        photoListViewModel.getCuratedPhotoList()
+        photoViewModel.getCuratedPhotoList()
 
+        homeAdapter.showDetailPhoto {
+
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it.id!!)
+            Navigation.findNavController(view).navigate(action)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activity?.let { activity ->
+            // Найдите BottomNavigationView в активности и сделайте его видимым
+            val bottomNavigationView = activity.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            bottomNavigationView.visibility = View.VISIBLE
+        }
     }
 }
