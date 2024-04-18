@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/NetworkStub">
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/mulish_bold"
+        android:gravity="center"
+        android:text="@string/try_again"
+        android:textColor="@color/red"
+        android:textSize="18sp">
+
+    </TextView>
+
+
+</LinearLayout>

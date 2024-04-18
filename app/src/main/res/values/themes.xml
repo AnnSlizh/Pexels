@@ -1,0 +1,69 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PexelsApp" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/md_theme_light_dark_gray</item>
+        <item name="colorSecondary">@color/md_theme_light_gray</item>
+
+        <item name="searchViewStyle">@style/SearchView</item>
+        <item name="chipStyle">@style/Chip</item>
+        <!--        <item name="bottomNavigationStyle">@style/BottomNavigation</item>-->
+        <item name="toolbarStyle">@style/TopBarDetailsScreen</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+
+    <style name="NetworkStub">
+        <item name="android:src">@drawable/ic_no_network_light</item>
+
+    </style>
+
+    <style name="BookmarkButtonState">
+        <item name="android:src">@drawable/save_bookmark_selector</item>
+    </style>
+
+    <style name="DownloadButton">
+        <item name="android:src">@drawable/download_button</item>
+    </style>
+
+    <style name="Theme.PexelsApp" parent="Base.Theme.PexelsApp" />
+
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/red</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.PexelsApp</item>
+    </style>
+
+    <style name="SearchView">
+        <item name="android:background">@drawable/custom_search_view</item>
+        <item name="android:backgroundTint">@color/md_theme_light_gray</item>
+    </style>
+
+    <style name="Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipCornerRadius">100dp</item>
+        <item name="chipBackgroundColor">@color/md_theme_light_gray</item>
+        <item name="chipEndPadding">20dp</item>
+        <item name="chipStartPadding">20dp</item>
+        <item name="fontFamily">@font/mulish_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BottomNavigation">
+        <item name="android:background">@color/red</item>
+    </style>
+
+    <style name="TopBarDetailsScreen" >
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="BackButton">
+        <item name="android:src">@drawable/ic_back_light</item>
+    </style>
+</resources>

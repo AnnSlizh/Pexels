@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/menu_home_selector"
+        android:title="Home"
+        android:enabled="true"
+
+        />
+    <item
+        android:id="@+id/menu_bookmarks"
+        android:icon="@drawable/menu_bookmarks_selector"
+        android:title="Bookmarks"
+        android:enabled="true"/>
+
+</menu>

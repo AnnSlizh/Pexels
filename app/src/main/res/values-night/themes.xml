@@ -1,0 +1,62 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PexelsApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowBackground">@color/black</item>
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorSecondary">@color/md_theme_dark_gray</item>
+
+        <item name="searchViewStyle">@style/SearchView</item>
+        <item name="chipStyle">@style/Chip</item>
+        <item name="toolbarStyle">@style/TopBarDetailsScreen</item>
+        <item name="android:textColor">@color/white</item>
+
+
+    </style>
+
+    <style name="NetworkStub">
+        <item name="android:src">@drawable/ic_no_network_dark</item>
+    </style>
+
+    <style name="BookmarkButtonState">
+        <item name="android:src">@drawable/save_bookmark_selector_dark</item>
+    </style>
+
+    <style name="DownloadButton">
+        <item name="android:src">@drawable/download_button_dark</item>
+    </style>
+
+
+    <style name="SearchView">
+        <item name="android:background">@drawable/custom_search_view</item>
+        <item name="android:backgroundTint">@color/md_theme_dark_gray</item>
+
+    </style>
+
+    <style name="Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipCornerRadius">100dp</item>
+        <item name="chipBackgroundColor">@color/md_theme_dark_gray</item>
+        <item name="chipEndPadding">20dp</item>
+        <item name="chipStartPadding">20dp</item>
+        <item name="fontFamily">@font/mulish_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TopBarDetailsScreen" >
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="BottomNavigation">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="BackButton">
+        <item name="android:src">@drawable/ic_back_dark</item>
+    </style>
+</resources>
