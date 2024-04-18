@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         Thread.sleep(2000)
         installSplashScreen()
-//        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

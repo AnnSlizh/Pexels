@@ -14,12 +14,12 @@ import retrofit2.http.Query
 interface PexelsApi {
 
     @GET("search")
-    suspend fun getPhotoList(
+    suspend fun getSearchPhotoList(
         @Query("query") query: String,
         @Query("per_page") perPage: Int = PER_PAGE,
-        @Query("page") page: Int,
+        @Query("page") page: Int = 1,
         @Header("Authorization") authorization: String = API_KEY
-    ): PhotoList
+    ): Response<PhotoList>
 
     @GET("curated")
     suspend fun getCuratedPhotoList(
@@ -38,5 +38,5 @@ interface PexelsApi {
     suspend fun getFeaturedCollections(
         @Query("per_page") perPage: Int = PER_PAGE,
         @Header("Authorization") authorization: String = API_KEY
-    ): List<FeaturedCollection>?
+    ): Response<FeaturedCollection>
 }

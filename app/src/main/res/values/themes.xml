@@ -47,7 +47,7 @@
 
     <style name="Chip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipCornerRadius">100dp</item>
-        <item name="chipBackgroundColor">@color/md_theme_light_gray</item>
+        <item name="chipBackgroundColor">@drawable/chip_selector</item>
         <item name="chipEndPadding">20dp</item>
         <item name="chipStartPadding">20dp</item>
         <item name="fontFamily">@font/mulish_regular</item>

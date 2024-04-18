@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,11 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.slizh.pexelsapp.MainActivity
 import by.slizh.pexelsapp.R
+import by.slizh.pexelsapp.data.response.PhotoList
 import by.slizh.pexelsapp.databinding.FragmentHomeBinding
+import by.slizh.pexelsapp.databinding.NoNetworkStubBinding
 import by.slizh.pexelsapp.ui.adapters.HomeAdapter
+import by.slizh.pexelsapp.util.Constans
 import by.slizh.pexelsapp.util.Resource
 import by.slizh.pexelsapp.viewModel.PhotoViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,8 +40,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -44,29 +48,76 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.homeRecycleView.apply {
             adapter = homeAdapter
-            layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL )
+            layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         }
 
         photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
-            when (photoList) {
-                is Resource.Success -> {
-                    binding.homeProgressBar.visibility = View.GONE
-                    homeAdapter.differ.submitList(photoList.data?.photos)
-                }
-                is Resource.Error -> {
-                    binding.homeProgressBar.visibility = View.GONE
-                    Log.d("ERROR HOME FRAGMENT","onViewCreated: ERROR ")
-                }
-                is Resource.Loading -> {
-                    binding.homeProgressBar.visibility = View.VISIBLE
-                    Log.d("ERROR HOME FRAGMENT","onViewCreated: LOADING..")
-
-                }
-            }
+            checkState(photoList)
         })
         photoViewModel.getCuratedPhotoList()
+
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
+                    checkState(photoList)
+                })
+
+                query?.let { photoViewModel.getSearchPhotoList(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
+                    checkState(photoList)
+                })
+
+                newText?.let { photoViewModel.getSearchPhotoList(it) }
+                return true
+            }
+        })
+
+        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+
+            val selectedChip = group.findViewById<Chip>(checkedIds[0])
+
+            if (selectedChip != null) {
+
+                val selectedText = selectedChip.text.toString()
+
+                binding.searchView.setQuery(selectedText, true)
+
+            }
+        }
+
+
+        photoViewModel.featuredCollection.observe(
+            viewLifecycleOwner,
+            Observer { featuredCollection ->
+                when (featuredCollection) {
+                    is Resource.Success -> {
+                        binding.chipGroup.visibility = View.VISIBLE
+
+                        for (item in 0..6) {
+                            val chip = Chip(context)
+                            chip.text = featuredCollection.data?.collections!![item].title
+                            binding.chipGroup.addView(chip)
+                        }
+
+                    }
+
+                    is Resource.Error -> {
+                        binding.chipGroup.visibility = View.GONE
+                    }
+
+                    is Resource.Loading -> {
+                        binding.homeProgressBar.visibility = View.VISIBLE
+                    }
+                }
+            })
+        photoViewModel.getFeaturedCollections()
 
         homeAdapter.showDetailPhoto {
 
@@ -76,12 +127,46 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun checkState(photoList: Resource<PhotoList>) {
+        when (photoList) {
+            is Resource.Success -> {
+                binding.homeProgressBar.visibility = View.GONE
+                homeAdapter.differ.submitList(photoList.data?.photos)
+            }
+
+            is Resource.Error -> {
+
+                binding.homeProgressBar.visibility = View.GONE
+
+                when (photoList.message) {
+                    Constans.MESSAGE_NO_INTERNET -> {
+                        binding.noNetworkViewStub.visibility = View.VISIBLE
+                    }
+
+                    Constans.MESSAGE_NETWORK_FAILED -> {
+                        Toast.makeText(context, "Check your network connection", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    Constans.MESSAGE_ERROR_GET_PHOTO -> {
+                        binding.emptyHomeViewStub.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            is Resource.Loading -> {
+                binding.homeProgressBar.visibility = View.VISIBLE
+            }
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
 
         activity?.let { activity ->
-            // Найдите BottomNavigationView в активности и сделайте его видимым
-            val bottomNavigationView = activity.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            val bottomNavigationView =
+                activity.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             bottomNavigationView.visibility = View.VISIBLE
         }
     }

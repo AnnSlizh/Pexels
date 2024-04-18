@@ -28,7 +28,7 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
         }
 
         override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-            return oldItem == newItem
+            return oldItem.hashCode() == newItem.hashCode()
         }
 
     }

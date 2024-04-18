@@ -1,11 +1,9 @@
 package by.slizh.pexelsapp.data.response
 
 data class FeaturedCollection(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val private: Boolean,
-    val media_count: Int,
-    val photos_count: Int,
-    val videos_count: Int
+    val collections: List<Collection>,
+    val page: Int,
+    val per_page: Int,
+    val total_results: Int
+
 )
