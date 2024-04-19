@@ -84,7 +84,10 @@ class HomeFragment : Fragment() {
                 photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
                     checkState(photoList)
                 })
-                if (newText.isNullOrEmpty()) binding.chipGroup.clearCheck()
+                if (newText.isNullOrEmpty()) {
+                    binding.chipGroup.clearCheck()
+                    photoViewModel.getCuratedPhotoList()
+                }
 
                 newText?.let { query ->
                     photoViewModel.getSearchPhotoList(query) }
@@ -109,10 +112,17 @@ class HomeFragment : Fragment() {
                     is Resource.Success -> {
                         binding.chipGroup.visibility = View.VISIBLE
 
-                        for (item in 0..6) {
-                            val chip = Chip(context)
-                            chip.text = featuredCollection.data?.collections!![item].title
-                            binding.chipGroup.addView(chip)
+                        if (binding.chipGroup.childCount > 0) {
+                            for (item in 0 until binding.chipGroup.childCount) {
+                                val chip = binding.chipGroup.getChildAt(item) as Chip
+                                chip.text = featuredCollection.data?.collections!![item].title
+                            }
+                        } else {
+                            for (item in 0..6) {
+                                val chip = Chip(context)
+                                chip.text = featuredCollection.data?.collections!![item].title
+                                binding.chipGroup.addView(chip)
+                            }
                         }
 
                     }
