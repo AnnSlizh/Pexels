@@ -1,7 +1,6 @@
 package by.slizh.pexelsapp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import by.slizh.pexelsapp.MainActivity
 import by.slizh.pexelsapp.R
 import by.slizh.pexelsapp.data.response.PhotoList
 import by.slizh.pexelsapp.databinding.FragmentHomeBinding
-import by.slizh.pexelsapp.databinding.NoNetworkStubBinding
 import by.slizh.pexelsapp.ui.adapters.HomeAdapter
 import by.slizh.pexelsapp.util.Constans
 import by.slizh.pexelsapp.util.Resource
@@ -92,7 +89,6 @@ class HomeFragment : Fragment() {
                 newText?.let { query ->
                     photoViewModel.getSearchPhotoList(query) }
                 return true
-
             }
         })
 

@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_bookmarks -> {
                     navController.navigate(R.id.bookmarksFragment)
                 }
-
             }
             return@setOnItemSelectedListener true
         }

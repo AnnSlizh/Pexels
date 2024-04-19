@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import by.slizh.pexelsapp.R
 import by.slizh.pexelsapp.data.response.Photo
-import by.slizh.pexelsapp.data.response.PhotoList
 import by.slizh.pexelsapp.databinding.HomeListRowBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -30,11 +29,9 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
         override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
-
     }
 
     val differ = AsyncListDiffer(this, diffUtil)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdapter.HomeViewHolder {
         val binding =
@@ -62,7 +59,6 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
         if (url != null) {
             Glide.with(this)
                 .load(url)
-                .error(R.drawable.download_button)
                 .fitCenter()
                 .placeholder(R.drawable.placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -73,6 +69,4 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
     fun showDetailPhoto(callback: (Photo) -> Unit) {
         this.showDetailPhoto = callback
     }
-
-
 }

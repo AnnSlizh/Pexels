@@ -168,6 +168,4 @@ class PhotoViewModel @Inject constructor(
         }
         return false
     }
-
-
 }

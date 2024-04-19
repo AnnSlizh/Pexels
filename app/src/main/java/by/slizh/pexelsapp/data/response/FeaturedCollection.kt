@@ -5,5 +5,4 @@ data class FeaturedCollection(
     val page: Int,
     val per_page: Int,
     val total_results: Int
-
 )

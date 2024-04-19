@@ -61,40 +61,6 @@
             app:singleLine="true"
             app:singleSelection="true">
 
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Ice" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Watches" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Drawing" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Photos" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Flowers" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Nature" />-->
-
-<!--            <com.google.android.material.chip.Chip-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                tools:text="Food" />-->
 
         </com.google.android.material.chip.ChipGroup>
 

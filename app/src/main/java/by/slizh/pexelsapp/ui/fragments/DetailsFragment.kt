@@ -23,11 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    private val detailsPhotoArgs: DetailsFragmentArgs by navArgs<DetailsFragmentArgs>()
-
+    private val detailsPhotoArgs: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
-    private val photoViewModel: PhotoViewModel by viewModels()
 
+    private val photoViewModel: PhotoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,11 +76,6 @@ class DetailsFragment : Fragment() {
                         Toast.makeText(context, "Image download started", Toast.LENGTH_SHORT).show()
                     }
 
-//                    val imageDownloader = ImageDownloader(requireContext())
-//
-//                    binding.downloadImageButton.setOnClickListener {
-//                        photo.data?.src?.original?.let { it1 -> imageDownloader.downloadImage(it1) }
-//                    }
                 }
 
                 is Resource.Error -> {
@@ -97,9 +91,6 @@ class DetailsFragment : Fragment() {
             }
         })
         photoViewModel.getPhotoById(currentPhotoId)
-
-
-
 
     }
 }

@@ -12,7 +12,6 @@
 
         <item name="searchViewStyle">@style/SearchView</item>
         <item name="chipStyle">@style/Chip</item>
-        <!--        <item name="bottomNavigationStyle">@style/BottomNavigation</item>-->
         <item name="toolbarStyle">@style/TopBarDetailsScreen</item>
         <item name="android:textColor">@color/black</item>
 
@@ -56,7 +55,7 @@
     </style>
 
     <style name="BottomNavigation">
-        <item name="android:background">@color/red</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="TopBarDetailsScreen" >
