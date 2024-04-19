@@ -85,11 +85,24 @@ class PhotoViewModel @Inject constructor(
     }
 
     fun getPhotoById(photoId: Int) {
-        viewModelScope.launch {
-            _photo.postValue(Resource.Loading())
-            val response = photoRepository.getPhotoById(photoId)
-            _photo.postValue(photoResponse(response))
+        _photo.postValue(Resource.Loading())
+
+        try {
+            if (hasInternetConnection()) {
+                viewModelScope.launch {
+                    val response = photoRepository.getPhotoById(photoId)
+                    _photo.postValue(photoResponse(response))
+                }
+            } else {
+                _photo.postValue(Resource.Error(MESSAGE_NO_INTERNET))
+            }
+        } catch (t: Throwable) {
+            when (t){
+                is IOException -> _featuredCollection.postValue(Resource.Error(MESSAGE_NETWORK_FAILED))
+                else -> _featuredCollection.postValue(Resource.Error(MESSAGE_ERROR_GET_PHOTO))
+            }
         }
+
     }
 
     fun getFeaturedCollections() {

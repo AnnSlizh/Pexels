@@ -1,21 +1,18 @@
 package by.slizh.pexelsapp.ui.fragments
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import by.slizh.pexelsapp.MainActivity
 import by.slizh.pexelsapp.R
 import by.slizh.pexelsapp.databinding.FragmentDetailsBinding
+import by.slizh.pexelsapp.util.downloader.ImageDownloader
 import by.slizh.pexelsapp.util.Resource
 import by.slizh.pexelsapp.viewModel.PhotoViewModel
 import com.bumptech.glide.Glide
@@ -31,7 +28,6 @@ class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
     private val photoViewModel: PhotoViewModel by viewModels()
 
-    var bottomNavigationViewVisibility = View.VISIBLE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +56,7 @@ class DetailsFragment : Fragment() {
             when (photo) {
                 is Resource.Success -> {
                     binding.detailProgressBar.visibility = View.GONE
+                    binding.buttonsDetails.visibility = View.VISIBLE
 
                     binding.photographerText.text = photo.data?.photographer
 
@@ -72,22 +69,36 @@ class DetailsFragment : Fragment() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(this)
                     }
+
+                    binding.downloadImageButton.setOnClickListener {
+
+                        val downloader = context?.let { it1 -> ImageDownloader(it1) }
+                        photo.data?.src?.original?.let { it1 -> downloader?.downloadFile(it1) }
+                        Toast.makeText(context, "Image download started", Toast.LENGTH_SHORT).show()
+                    }
+
+//                    val imageDownloader = ImageDownloader(requireContext())
+//
+//                    binding.downloadImageButton.setOnClickListener {
+//                        photo.data?.src?.original?.let { it1 -> imageDownloader.downloadImage(it1) }
+//                    }
                 }
 
                 is Resource.Error -> {
                     binding.detailProgressBar.visibility = View.GONE
-                    Toast.makeText(context, "Data loading error", Toast.LENGTH_SHORT).show()
-                    Log.d("ERROR DETAIL FRAGMENT", "onViewCreated: ERROR ")
+                    binding.buttonsDetails.visibility = View.GONE
+                    binding.emptyDetailsViewStub.visibility = View.VISIBLE
                 }
 
                 is Resource.Loading -> {
                     binding.detailProgressBar.visibility = View.VISIBLE
-                    Log.d("ERROR DETAIL FRAGMENT", "onViewCreated: LOADING..")
-
+                    binding.buttonsDetails.visibility = View.VISIBLE
                 }
             }
         })
         photoViewModel.getPhotoById(currentPhotoId)
+
+
 
 
     }

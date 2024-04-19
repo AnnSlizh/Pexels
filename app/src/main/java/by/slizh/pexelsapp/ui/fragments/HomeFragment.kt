@@ -65,7 +65,21 @@ class HomeFragment : Fragment() {
                     checkState(photoList)
                 })
 
-                query?.let { photoViewModel.getSearchPhotoList(it) }
+                if (query.isNullOrEmpty()) binding.chipGroup.clearCheck()
+
+                query?.let {query ->
+                    val chipGroup = binding.chipGroup
+
+                    for (i in 0 until chipGroup.childCount) {
+                        val chip = chipGroup.getChildAt(i) as Chip
+                        val chipText = chip.text.toString()
+
+                        if (chipText.contains(query, ignoreCase = true)) {
+                            chip.isChecked = true
+                            return@let
+                        } else chip.isChecked = false
+                    }
+                    photoViewModel.getSearchPhotoList(query) }
                 return true
             }
 
@@ -73,22 +87,21 @@ class HomeFragment : Fragment() {
                 photoViewModel.photoList.observe(viewLifecycleOwner, Observer { photoList ->
                     checkState(photoList)
                 })
+                if (newText.isNullOrEmpty()) binding.chipGroup.clearCheck()
 
-                newText?.let { photoViewModel.getSearchPhotoList(it) }
+                newText?.let { query ->
+                    photoViewModel.getSearchPhotoList(query) }
                 return true
+
             }
         })
 
         binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
 
-            val selectedChip = group.findViewById<Chip>(checkedIds[0])
-
-            if (selectedChip != null) {
-
-                val selectedText = selectedChip.text.toString()
-
+            if (checkedIds.isNotEmpty()) {
+                val selectedChip = group.findViewById<Chip>(checkedIds[0])
+                val selectedText = selectedChip?.text?.toString() ?: ""
                 binding.searchView.setQuery(selectedText, true)
-
             }
         }
 
