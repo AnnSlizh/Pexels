@@ -11,9 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import by.slizh.pexelsapp.R
+import by.slizh.pexelsapp.data.converter.photoToPhotoEntity
 import by.slizh.pexelsapp.databinding.FragmentDetailsBinding
 import by.slizh.pexelsapp.util.downloader.ImageDownloader
 import by.slizh.pexelsapp.util.Resource
+import by.slizh.pexelsapp.viewModel.BookmarkViewModel
 import by.slizh.pexelsapp.viewModel.PhotoViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,6 +29,7 @@ class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
 
     private val photoViewModel: PhotoViewModel by viewModels()
+    private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,9 +74,34 @@ class DetailsFragment : Fragment() {
 
                     binding.downloadImageButton.setOnClickListener {
 
-                        val downloader = context?.let { it1 -> ImageDownloader(it1) }
-                        photo.data?.src?.original?.let { it1 -> downloader?.downloadFile(it1) }
+                        val downloader = context?.let { context -> ImageDownloader(context) }
+                        photo.data?.src?.original?.let { context -> downloader?.downloadFile(context) }
                         Toast.makeText(context, "Image download started", Toast.LENGTH_SHORT).show()
+                    }
+
+//                    if ((photo.data?.let { bookmarkViewModel.getPhotoById(it.id)}) !=null) {
+//                        binding.saveBookmarkButton.isSelected = true
+//                    }
+
+                    photo.data?.let {
+                        bookmarkViewModel.getPhotoById(it.id).observe(viewLifecycleOwner, Observer { photo ->
+                            if (photo.isNotEmpty()) {
+                                binding.saveBookmarkButton.isSelected = true
+                            }
+                        })
+                    }
+
+
+                    binding.saveBookmarkButton.setOnClickListener {
+                        if (it.isSelected) {
+                            photo.data?.let { it1 -> bookmarkViewModel.deletePhoto(it1) }
+                            it.isSelected = false
+                        }
+                        else {
+                            photo.data?.let { it1 -> bookmarkViewModel.insertPhoto(it1) }
+                            it.isSelected = true
+                            Toast.makeText(context, "Image saved", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                 }

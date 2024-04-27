@@ -13,8 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import javax.inject.Inject
 
-class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
-
+class HomeAdapter: RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     private var showDetailPhoto: ((Photo) -> Unit)? = null
     inner class HomeViewHolder(val binding: HomeListRowBinding) :
@@ -27,7 +26,7 @@ class HomeAdapter @Inject constructor() : RecyclerView.Adapter<HomeAdapter.HomeV
         }
 
         override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem == newItem
         }
     }
 

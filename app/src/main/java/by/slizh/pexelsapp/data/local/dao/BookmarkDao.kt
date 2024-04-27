@@ -9,7 +9,7 @@ import androidx.room.Query
 import by.slizh.pexelsapp.data.local.entity.PhotoEntity
 
 @Dao
-interface PhotoDao {
+interface BookmarkDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhoto(photo: PhotoEntity)
 

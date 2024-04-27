@@ -22,6 +22,7 @@ import by.slizh.pexelsapp.util.Constans.Companion.MESSAGE_NO_INTERNET
 import by.slizh.pexelsapp.util.Resource
 import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
@@ -48,7 +49,7 @@ class PhotoViewModel @Inject constructor(
 
         try {
             if (hasInternetConnection()) {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     val response = photoRepository.getSearchPhotoList(query)
                     _photoList.postValue(photoListResponse(response))
                 }
@@ -56,7 +57,7 @@ class PhotoViewModel @Inject constructor(
                 _photoList.postValue(Resource.Error(MESSAGE_NO_INTERNET))
             }
         } catch (t: Throwable) {
-            when (t){
+            when (t) {
                 is IOException -> _photoList.postValue(Resource.Error(MESSAGE_NETWORK_FAILED))
                 else -> _photoList.postValue(Resource.Error(MESSAGE_ERROR_GET_PHOTO))
             }
@@ -68,7 +69,7 @@ class PhotoViewModel @Inject constructor(
 
         try {
             if (hasInternetConnection()) {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     val response = photoRepository.getCuratedPhotoList()
                     _photoList.postValue(photoListResponse(response))
                 }
@@ -76,7 +77,7 @@ class PhotoViewModel @Inject constructor(
                 _photoList.postValue(Resource.Error(MESSAGE_NO_INTERNET))
             }
         } catch (t: Throwable) {
-            when (t){
+            when (t) {
                 is IOException -> _photoList.postValue(Resource.Error(MESSAGE_NETWORK_FAILED))
                 else -> _photoList.postValue(Resource.Error(MESSAGE_ERROR_GET_PHOTO))
             }
@@ -89,7 +90,7 @@ class PhotoViewModel @Inject constructor(
 
         try {
             if (hasInternetConnection()) {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     val response = photoRepository.getPhotoById(photoId)
                     _photo.postValue(photoResponse(response))
                 }
@@ -97,8 +98,13 @@ class PhotoViewModel @Inject constructor(
                 _photo.postValue(Resource.Error(MESSAGE_NO_INTERNET))
             }
         } catch (t: Throwable) {
-            when (t){
-                is IOException -> _featuredCollection.postValue(Resource.Error(MESSAGE_NETWORK_FAILED))
+            when (t) {
+                is IOException -> _featuredCollection.postValue(
+                    Resource.Error(
+                        MESSAGE_NETWORK_FAILED
+                    )
+                )
+
                 else -> _featuredCollection.postValue(Resource.Error(MESSAGE_ERROR_GET_PHOTO))
             }
         }
@@ -110,7 +116,7 @@ class PhotoViewModel @Inject constructor(
 
         try {
             if (hasInternetConnection()) {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     val response = photoRepository.getFeaturedCollections()
                     _featuredCollection.postValue(featuredCollectionResponse(response))
                 }
@@ -118,8 +124,13 @@ class PhotoViewModel @Inject constructor(
                 _featuredCollection.postValue(Resource.Error(MESSAGE_NO_INTERNET))
             }
         } catch (t: Throwable) {
-            when (t){
-                is IOException -> _featuredCollection.postValue(Resource.Error(MESSAGE_NETWORK_FAILED))
+            when (t) {
+                is IOException -> _featuredCollection.postValue(
+                    Resource.Error(
+                        MESSAGE_NETWORK_FAILED
+                    )
+                )
+
                 else -> _featuredCollection.postValue(Resource.Error(MESSAGE_ERROR_GET_PHOTO))
             }
         }
@@ -153,7 +164,6 @@ class PhotoViewModel @Inject constructor(
     }
 
 
-
     private fun hasInternetConnection(): Boolean {
         val connectivityManager = app.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -166,6 +176,5 @@ class PhotoViewModel @Inject constructor(
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
-        return false
     }
 }

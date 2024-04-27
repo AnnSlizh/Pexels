@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_margin="10dp"
     app:cardCornerRadius="20dp">
 
     <FrameLayout
@@ -12,13 +13,17 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/bookmarkImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             tools:src="@drawable/pic2">
 
         </ImageView>
 
         <TextView
+            android:id="@+id/bookmarkPhotographer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

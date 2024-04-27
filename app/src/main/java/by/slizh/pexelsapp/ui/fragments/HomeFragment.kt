@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import by.slizh.pexelsapp.MainActivity
 import by.slizh.pexelsapp.R
 import by.slizh.pexelsapp.data.response.PhotoList
 import by.slizh.pexelsapp.databinding.FragmentHomeBinding
@@ -30,8 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val photoViewModel: PhotoViewModel by viewModels()
 
-    @Inject
-    lateinit var homeAdapter: HomeAdapter
+    private lateinit var homeAdapter: HomeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        homeAdapter = HomeAdapter()
 
         binding.homeRecycleView.apply {
             adapter = homeAdapter
@@ -64,7 +65,7 @@ class HomeFragment : Fragment() {
 
                 if (query.isNullOrEmpty()) binding.chipGroup.clearCheck()
 
-                query?.let {query ->
+                query?.let { query ->
                     val chipGroup = binding.chipGroup
 
                     for (i in 0 until chipGroup.childCount) {
@@ -76,7 +77,8 @@ class HomeFragment : Fragment() {
                             return@let
                         } else chip.isChecked = false
                     }
-                    photoViewModel.getSearchPhotoList(query) }
+                    photoViewModel.getSearchPhotoList(query)
+                }
                 return true
             }
 
@@ -90,7 +92,8 @@ class HomeFragment : Fragment() {
                 }
 
                 newText?.let { query ->
-                    photoViewModel.getSearchPhotoList(query) }
+                    photoViewModel.getSearchPhotoList(query)
+                }
                 return true
             }
         })
@@ -182,11 +185,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        activity?.let { activity ->
-            val bottomNavigationView =
-                activity.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            bottomNavigationView.visibility = View.VISIBLE
+        val activityMainBinding = (activity as? MainActivity)?.binding
+        activityMainBinding?.let { binding ->
+            binding.bottomNavigationView.visibility = View.VISIBLE
         }
     }
 }

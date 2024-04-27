@@ -15,7 +15,7 @@ data class PhotoEntity(
     val photographer: String,
     val photographer_id: Int,
     val photographer_url: String,
-//    val src: SrcEntity,
+    val src: SrcEntity,
     val url: String
 )
 
